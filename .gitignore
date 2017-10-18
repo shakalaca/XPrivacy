@@ -21,3 +21,12 @@ local.properties
 
 #proguard
 proguard/
+
+# gradle cache
+.gradle
+
+# Android Studio project files
+.idea
+
+# generated files
+build/
