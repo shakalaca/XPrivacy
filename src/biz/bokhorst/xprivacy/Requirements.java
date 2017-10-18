@@ -145,9 +145,15 @@ public class Requirements {
 		}
 
 		// Check interface address
-		if (!checkField(InterfaceAddress.class, "address") || !checkField(InterfaceAddress.class, "broadcastAddress")
-				|| (PrivacyService.getClient() != null && PrivacyManager.getDefacedProp(0, "InetAddress") == null))
-			reportClass(InterfaceAddress.class, context);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+			if (!checkField(InterfaceAddress.class, "address") || !checkField(InterfaceAddress.class, "broadcastAddress")
+					|| (PrivacyService.getClient() != null && PrivacyManager.getDefacedProp(0, "InetAddress") == null))
+				reportClass(InterfaceAddress.class, context);
+		} else {
+			if (!checkField(InterfaceAddress.class, "address") || !checkField(InterfaceAddress.class, "address")
+					|| (PrivacyService.getClient() != null && PrivacyManager.getDefacedProp(0, "InetAddress") == null))
+				reportClass(InterfaceAddress.class, context);
+		}
 
 		// Check package manager service
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)

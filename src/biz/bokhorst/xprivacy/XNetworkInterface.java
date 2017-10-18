@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
+import android.os.Build;
 import android.os.Binder;
 import android.util.Log;
 
@@ -115,8 +116,14 @@ public class XNetworkInterface extends XHook {
 
 							// broadcastAddress
 							try {
-								Field fieldBroadcastAddress = InterfaceAddress.class
+								Field fieldBroadcastAddress;
+								if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+									fieldBroadcastAddress = InterfaceAddress.class
 										.getDeclaredField("broadcastAddress");
+								} else {
+									fieldBroadcastAddress = InterfaceAddress.class
+										.getDeclaredField("address");
+								}
 								fieldBroadcastAddress.setAccessible(true);
 								fieldBroadcastAddress.set(address,
 										PrivacyManager.getDefacedProp(Binder.getCallingUid(), "InetAddress"));
